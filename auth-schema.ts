@@ -1,9 +1,14 @@
+import { int } from "better-auth";
+import { datetime } from "drizzle-orm/mysql-core";
 import {
   pgTable,
   text,
   timestamp,
   boolean,
   integer,
+  real,
+  date,
+  serial,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -71,4 +76,15 @@ export const jwks = pgTable("jwks", {
   publicKey: text("public_key").notNull(),
   privateKey: text("private_key").notNull(),
   createdAt: timestamp("created_at").notNull(),
+});
+export const transactions = pgTable("transactions", {
+  id: serial("id").primaryKey(),
+  type: text("type").notNull(),
+  source: text("source").notNull(),
+  amount: real("amount").notNull(),
+  date: date("date").notNull(),
+  category: text("category").notNull(),
+  desc: text("text").notNull(),
+  authId: text("auth_id").notNull(),
+  message_hash_code: text("message_hash_code").notNull().unique(),
 });
